@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import i18nConfig, { defaultI18nNamespaces } from "@/i18n/i18nConfig"
 import initTranslations from "@/i18n"
-import TranslationsProvider from "@/components/TranslationsProvider"
+import TranslationsProvider from "@/providers/TranslationsProvider"
 import { cookies } from "next/headers"
 
 const geistSans = localFont({
