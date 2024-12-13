@@ -19,17 +19,20 @@ export default function LanguageChanger() {
         const date = new Date()
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
         const expires = date.toUTCString()
-        document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`
+        document.cookie = `lang=${newLocale};expires=${expires};path=/`
 
         // redirect to the new locale path
-        if (
-            currentLocale === i18nConfig.defaultLocale &&
-            !(i18nConfig as Record<string, any>).prefixDefault
-        ) {
-            router.push("/" + newLocale + currentPathname)
-        } else {
-            router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`))
-        }
+        // if (
+        //     currentLocale === i18nConfig.defaultLocale &&
+        //     !(i18nConfig as Record<string, any>).prefixDefault
+        // ) {
+        //     router.push("/" + newLocale + currentPathname)
+        // } else {
+        //     router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`))
+        // }
+
+        // test
+        // router.push(`${currentPathname}?lang=${newLocale}`)
 
         //  將使路由器快取失效，並向伺服器發出新的請求以取得目前的路由
         router.refresh()

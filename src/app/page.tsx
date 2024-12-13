@@ -1,10 +1,16 @@
 import ExampleClientComponent from "@/components/ExampleClientComponent"
 import LanguageChanger from "@/components/LanguageChanger"
 import initTranslations from "@/i18n"
-import { defaultI18nNamespaces } from "@/i18n/i18nConfig"
+import i18nConfig, { defaultI18nNamespaces } from "@/i18n/i18nConfig"
+import { cookies } from "next/headers"
 
 export default async function Home({ params }: { params: { lang: string } }) {
-    const { lang } = params
+    // recommend route segement
+    // const { lang } = params
+
+    const cookieStorage = cookies()
+    const cookieLocale = cookieStorage.get(i18nConfig.localeCookie)!.value
+    const lang = cookieLocale
     const { t, resources } = await initTranslations(lang, [...defaultI18nNamespaces, "second"])
 
     return (

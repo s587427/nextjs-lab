@@ -1,21 +1,10 @@
-import "../globals.css"
+import "./globals.css"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import i18nConfig, { defaultI18nNamespaces } from "@/i18n/i18nConfig"
 import initTranslations from "@/i18n"
 import TranslationsProvider from "@/providers/TranslationsProvider"
 import { cookies } from "next/headers"
-
-const geistSans = localFont({
-    src: "../fonts/GeistVF.woff",
-    variable: "--font-geist-sans",
-    weight: "100 900",
-})
-const geistMono = localFont({
-    src: "../fonts/GeistMonoVF.woff",
-    variable: "--font-geist-mono",
-    weight: "100 900",
-})
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -33,19 +22,20 @@ export default async function RootLayout({
     children: React.ReactNode
     params: { lang: string }
 }>) {
+    // recommend route segement
+    // const { lang } = params
+    // const { t, resources } = await initTranslations(lang, defaultI18nNamespaces)
+
+    // use cookie replace
     const cookieStorage = cookies()
-    const cookieLocale = cookieStorage.get(i18nConfig.localeCookie)?.value
+    const cookieLocale = cookieStorage.get(i18nConfig.localeCookie)!.value
+    const lang = cookieLocale
 
-    const { lang } = params
-    const { t, resources } = await initTranslations(lang, defaultI18nNamespaces)
-
-    console.log("server refresh", cookieLocale)
+    const { t, resources } = await initTranslations(cookieLocale as string, defaultI18nNamespaces)
 
     return (
         <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} min-h-[100vh] antialiased`}
-            >
+            <body className={`min-h-[100vh] antialiased`}>
                 <TranslationsProvider
                     locale={lang}
                     namespaces={defaultI18nNamespaces}
