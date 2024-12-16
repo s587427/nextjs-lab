@@ -43,6 +43,7 @@ export default function LanguageChanger() {
             <option value="en">English</option>
             <option value="it">Italian</option>
             <option value="fr">French</option>
+            <option value="zh-tw">繁體</option>
         </select>
     )
 }

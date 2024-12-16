@@ -35,6 +35,7 @@ export default async function initTranslations(
         fallbackNS: namespaces[0],
         ns: namespaces,
         preload: resources ? [] : i18nConfig.locales,
+        lowerCaseLng: true, // locale will be fully lowercased; e.g. en-US ⇒ en-us
     })
 
     // Return the initialized i18n instance and utilities
