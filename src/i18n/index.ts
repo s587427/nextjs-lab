@@ -3,6 +3,12 @@ import { initReactI18next } from "react-i18next/initReactI18next"
 import resourcesToBackend from "i18next-resources-to-backend"
 import i18nConfig from "@/i18n/i18nConfig"
 
+const testCallback = () =>
+    resourcesToBackend(
+        (language: string, namespace: string) =>
+            import(`@/i18n/locales/${language}/${namespace}.json`)
+    )
+
 export default async function initTranslations(
     locale: string,
     namespaces: string[],
@@ -16,12 +22,7 @@ export default async function initTranslations(
     i18nInstance.use(initReactI18next)
 
     if (!resources) {
-        i18nInstance.use(
-            resourcesToBackend(
-                (language: string, namespace: string) =>
-                    import(`@/i18n/locales/${language}/${namespace}.json`)
-            )
-        )
+        i18nInstance.use(testCallback())
     }
 
     // ! i18next default ns = translation
