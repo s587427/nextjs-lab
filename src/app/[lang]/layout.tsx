@@ -5,6 +5,7 @@ import i18nConfig, { defaultI18nNamespaces } from "@/i18n/i18nConfig"
 import initTranslations from "@/i18n"
 import TranslationsProvider from "@/providers/TranslationsProvider"
 import { cookies } from "next/headers"
+import StoreProvider from "@/providers/StoreProvider"
 
 const geistSans = localFont({
     src: "../fonts/GeistVF.woff",
@@ -41,18 +42,25 @@ export default async function RootLayout({
 
     console.log("server refresh", cookieLocale)
 
+    // 模擬請求
+    const data = await fetch("http://localhost:3000/api/counter", { cache: "no-store" })
+    const dataJson = await data.json()
+    const count = dataJson.data
+
     return (
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} min-h-[100vh] antialiased`}
             >
-                <TranslationsProvider
-                    locale={lang}
-                    namespaces={defaultI18nNamespaces}
-                    resources={resources}
-                >
-                    {children}
-                </TranslationsProvider>
+                <StoreProvider count={count}>
+                    <TranslationsProvider
+                        locale={lang}
+                        namespaces={defaultI18nNamespaces}
+                        resources={resources}
+                    >
+                        {children}
+                    </TranslationsProvider>
+                </StoreProvider>
             </body>
         </html>
     )
